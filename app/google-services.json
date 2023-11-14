@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1054512463913",
+    "project_id": "spend-tracker-71851",
+    "storage_bucket": "spend-tracker-71851.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1054512463913:android:bbc57f456f7f6d9c6ddc38",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1054512463913-j7r096fk45nfmc6h4aeijakmlv0r292t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myapplication",
+            "certificate_hash": "0c7fc6e558804e2854f16854cd093dbbf6c5a69e"
+          }
+        },
+        {
+          "client_id": "1054512463913-r6bvbb7dlfdded59sgucp1cj44qpq0ih.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAU_A9JY_1_LWCbPek854StPp8Gas8KimQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1054512463913-r6bvbb7dlfdded59sgucp1cj44qpq0ih.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

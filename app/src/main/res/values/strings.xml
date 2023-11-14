@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="web_client_id">1054512463913-r6bvbb7dlfdded59sgucp1cj44qpq0ih.apps.googleusercontent.com</string>
+    <string name="title_activity_practice">Practice</string>
+</resources>

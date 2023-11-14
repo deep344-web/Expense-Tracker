@@ -14,20 +14,6 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
-            android:name=".view_2.SignInActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Practice"
-            android:exported="false"
-            android:label="@string/title_activity_practice"
-            android:theme="@style/Theme.MyApplication" />
-        <activity
-            android:name=".view_2.MainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view_2.AddEntryActivity"
-            android:exported="false" />
-        <activity
             android:name=".view.ui.NavHostActivity"
             android:exported="true"
             android:label="@string/app_name"

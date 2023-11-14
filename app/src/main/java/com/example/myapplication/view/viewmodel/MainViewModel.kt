@@ -29,15 +29,15 @@ class MainViewModel @Inject constructor(
     override fun onResume(owner: LifecycleOwner) {
         super.onResume(owner)
         repository.retreiveData(object : CallBackListener {
-            override fun onSuccess(objects : QuerySnapshot) {
+            override fun onSuccess(objects: QuerySnapshot?) {
                 val list = ArrayList<SpendModel>()
-                objects.documents.forEach { document ->
+                objects?.documents?.forEach { document ->
                     document.toObject(SpendModel::class.java)?.let { list.add(it) }
                 }
                 _viewState.value = list
             }
 
-            override fun onFailure(objects: Any) {
+            override fun onFailure(objects: Any?) {
 //                _viewState.value = Viewstate.OnSuccess(ActionType.TOAST, "Failure")
             }
         })
@@ -51,15 +51,15 @@ class MainViewModel @Inject constructor(
 
     fun retrieveDataWithDateRange(startTime : Long, endTime : Long){
         repository.retreiveDataWithDateRange(startTime, endTime, object : CallBackListener {
-            override fun onSuccess(objects: QuerySnapshot) {
+            override fun onSuccess(objects: QuerySnapshot?) {
                 val list = ArrayList<SpendModel>()
-                objects.documents.forEach { document ->
+                objects?.documents?.forEach { document ->
                     document.toObject(SpendModel::class.java)?.let { list.add(it) }
                 }
                 _viewState.value = list
             }
 
-            override fun onFailure(objects: Any) {
+            override fun onFailure(objects: Any?) {
             }
 
         })

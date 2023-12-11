@@ -7,14 +7,12 @@ import java.util.TimeZone
 
 
 class SpendModel() {
-    var type : Type = Type.SPENDING
+    var type : String = Type.EXPENSE.value
     var name : String = ""
     var amount : Long = 0
     var timestamp: Long = Instant.now().toEpochMilli()
-    var timeZone : String = TimeZone.getDefault().id
 
-
-    constructor(type: Type, name : String, amount : Long) : this() {
+    constructor(type: String, name : String, amount : Long) : this() {
         this.type = type
         this.name = name
         this.amount = amount

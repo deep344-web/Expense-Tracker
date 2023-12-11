@@ -6,6 +6,7 @@ import com.example.myapplication.view.model.UserModel
 import com.example.myapplication.view.model.SpendModel
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import javax.inject.Inject
 
 
@@ -31,7 +32,7 @@ class SpendingRepository @Inject constructor(
     }
 
     fun retreiveData(callBackListener: CallBackListener){
-        subCollectionReference.orderBy("timestamp").get()
+        subCollectionReference.orderBy("timestamp", Query.Direction.DESCENDING).get()
         .addOnSuccessListener {
                 callBackListener.onSuccess(it)
         }.addOnFailureListener{

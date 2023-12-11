@@ -22,6 +22,7 @@ class SpendingViewModel @Inject constructor(
     val viewState = _viewState.asStateFlow()
 
     fun addEntry(spendModel : SpendModel, callBackListener: CallBackListener) {
+
         val userModel = UserModel(googleAuthUiClient.getSignedInUser()!!.userId, 0, 0)
         repository.storeData(userModel, spendModel, callBackListener)
     }

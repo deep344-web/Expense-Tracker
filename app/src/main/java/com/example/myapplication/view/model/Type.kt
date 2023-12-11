@@ -1,5 +1,5 @@
 package com.example.myapplication.view.model
 
-enum class Type (value : String) {
-    SPENDING ("spending"), INCOME("income")
+enum class Type (val value : String) {
+    EXPENSE ("Expense"), INCOME("Income")
 }

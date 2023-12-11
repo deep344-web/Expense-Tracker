@@ -1,5 +1,6 @@
 package com.example.myapplication.view.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
@@ -13,6 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,22 +28,39 @@ class MainViewModel @Inject constructor(
     private val _viewState = MutableStateFlow<ArrayList<SpendModel>>(arrayListOf())
     val viewState = _viewState.asStateFlow()
 
-    override fun onResume(owner: LifecycleOwner) {
-        super.onResume(owner)
+    init {
         repository.retreiveData(object : CallBackListener {
             override fun onSuccess(objects: QuerySnapshot?) {
                 val list = ArrayList<SpendModel>()
                 objects?.documents?.forEach { document ->
                     document.toObject(SpendModel::class.java)?.let { list.add(it) }
                 }
+                Log.d("items : ", list.toString() )
                 _viewState.value = list
             }
 
             override fun onFailure(objects: Any?) {
+                Log.e("anuj-love-you", objects.toString())
 //                _viewState.value = Viewstate.OnSuccess(ActionType.TOAST, "Failure")
             }
         })
     }
+//    override fun onResume(owner: LifecycleOwner) {
+//        super.onResume(owner)
+//        repository.retreiveData(object : CallBackListener {
+//            override fun onSuccess(objects: QuerySnapshot?) {
+//                val list = ArrayList<SpendModel>()
+//                objects?.documents?.forEach { document ->
+//                    document.toObject(SpendModel::class.java)?.let { list.add(it) }
+//                }
+//                _viewState.value = list
+//            }
+//
+//            override fun onFailure(objects: Any?) {
+////                _viewState.value = Viewstate.OnSuccess(ActionType.TOAST, "Failure")
+//            }
+//        })
+//    }
 
     fun signOutUser(){
         viewModelScope.launch(Dispatchers.Default) {
@@ -49,19 +68,19 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun retrieveDataWithDateRange(startTime : Long, endTime : Long){
-        repository.retreiveDataWithDateRange(startTime, endTime, object : CallBackListener {
-            override fun onSuccess(objects: QuerySnapshot?) {
-                val list = ArrayList<SpendModel>()
-                objects?.documents?.forEach { document ->
-                    document.toObject(SpendModel::class.java)?.let { list.add(it) }
-                }
-                _viewState.value = list
-            }
-
-            override fun onFailure(objects: Any?) {
-            }
-
-        })
-    }
+//    fun retrieveDataWithDateRange(startTime : Long, endTime : Long){
+//        repository.retreiveDataWithDateRange(startTime, endTime, object : CallBackListener {
+//            override fun onSuccess(objects: QuerySnapshot?) {
+//                val list = ArrayList<SpendModel>()
+//                objects?.documents?.forEach { document ->
+//                    document.toObject(SpendModel::class.java)?.let { list.add(it) }
+//                }
+//                _viewState.value = list
+//            }
+//
+//            override fun onFailure(objects: Any?) {
+//            }
+//
+//        })
+//    }
 }

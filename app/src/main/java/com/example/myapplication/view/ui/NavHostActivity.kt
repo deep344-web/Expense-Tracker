@@ -16,6 +16,10 @@ import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.AddCircle
+import androidx.compose.material.icons.outlined.ExitToApp
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
@@ -107,11 +111,28 @@ class NavHostActivity : ComponentActivity() {
                                     }
                                 },
                                 items = listOf(
-                                    MenuItemModel("home", "Home", "home", Icons.Filled.Home),
-                                    MenuItemModel("add", "Add", "add", Icons.Filled.AddCircle),
-                                    MenuItemModel("settings", "Settings", "settings", Icons.Filled.Settings),
-                                    MenuItemModel("logout", "Sign out", "logout", Icons.Filled.ExitToApp),
-                                    )
+                                    MenuItemModel(MenuIds.HOME.value,
+                                        "Home",
+                                        "home",
+                                        Icons.Filled.Home,
+                                        Icons.Outlined.Home),
+                                    MenuItemModel(MenuIds.ADD.value,
+                                        "Add",
+                                        "add",
+                                        Icons.Filled.AddCircle,
+                                        Icons.Outlined.AddCircle),
+                                    MenuItemModel(MenuIds.SETTINGS.value,
+                                        "Settings",
+                                        "settings",
+                                        Icons.Filled.Settings,
+                                        Icons.Outlined.Settings),
+                                    MenuItemModel(MenuIds.SIGN_OUT.value,
+                                        "Sign out",
+                                        "logout",
+                                        Icons.Filled.ExitToApp,
+                                        Icons.Outlined.ExitToApp),
+                                    ),
+                                signInUser = googleAuthUiClient.getSignedInUser()
                             )
                         }
                         composable(route = Screen.AddEntryScreen.route){

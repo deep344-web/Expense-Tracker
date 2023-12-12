@@ -1,7 +1,5 @@
 package com.example.myapplication.view.ui
 
-import android.util.Log
-import android.view.MenuItem
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -16,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -30,12 +29,16 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -52,6 +55,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.myapplication.R
+import com.example.myapplication.UserData
 import com.example.myapplication.view.model.Screen
 import com.example.myapplication.view.model.SpendModel
 import com.example.myapplication.view.model.Type
@@ -66,7 +70,9 @@ import java.util.TimeZone
 fun homePage(viewModel: MainViewModel = hiltViewModel(),
              onLogOutClick: () -> Unit,
              navController: NavController,
-             items : List<MenuItemModel>) {
+             items : List<MenuItemModel>,
+             signInUser: UserData?
+) {
 
     val list = viewModel.viewState.collectAsState().value
     var drawerState = rememberDrawerState(
@@ -77,16 +83,19 @@ fun homePage(viewModel: MainViewModel = hiltViewModel(),
         mutableIntStateOf(0)
     }
     val coroutineScope = rememberCoroutineScope()
+    val openAlertDialog = remember { mutableStateOf(false) }
+
 
     ModalNavigationDrawer(
         drawerContent = {
             ModalDrawerSheet {
-                DrawerHeader()
+                DrawerHeader(signInUser)
+                Spacer(modifier = Modifier.height(16.dp))
                 items.forEachIndexed{ index, item ->
                     NavigationDrawerItem(
                         icon = {
                             Icon(
-                                imageVector = item.icon,
+                                imageVector = if(selectedItemIndx == index) item.selectedIcon else item.unSelectedIcon,
                                 contentDescription = item.contentDesc
                             )
                         },
@@ -95,9 +104,31 @@ fun homePage(viewModel: MainViewModel = hiltViewModel(),
                         },
                         selected = index == selectedItemIndx,
                         onClick = {
-                            selectedItemIndx = index
-                            coroutineScope.launch {
-                                drawerState.close()
+                            if(selectedItemIndx != index){
+                                selectedItemIndx = index;
+                                coroutineScope.launch {
+                                    drawerState.close()
+                                }
+                                when(item.id){
+                                    MenuIds.HOME.value -> {
+                                        navController.navigate(Screen.HomeScreen.route)
+                                    }
+                                    MenuIds.SETTINGS.value -> {
+
+                                    }
+                                    MenuIds.ADD.value -> {
+                                        navController.navigate(Screen.AddEntryScreen.route)
+                                    }
+                                    MenuIds.SIGN_OUT.value -> {
+                                        openAlertDialog.value = true
+                                    }
+                                    else -> {}
+                                }
+                            }
+                            else {
+                                coroutineScope.launch {
+                                    drawerState.close()
+                                }
                             }
                         })
                 }
@@ -133,7 +164,7 @@ fun homePage(viewModel: MainViewModel = hiltViewModel(),
                     },
                     actions = {
                         IconButton(onClick = {
-                            onLogOutClick()
+                            openAlertDialog.value = true
                         }) {
                             Icon(
                                 imageVector = ImageVector.vectorResource(R.drawable.icon_logout),
@@ -228,6 +259,19 @@ fun homePage(viewModel: MainViewModel = hiltViewModel(),
             }
         }
     }
+
+    openAlertDialog(
+        openAlertDialog = openAlertDialog,
+        onDismissRequest = {
+            openAlertDialog.value = false
+        },
+        onConfirmation = {
+            openAlertDialog.value = false
+            onLogOutClick()
+        },
+        dialogTitle = "Signing Out",
+        dialogText = "Are you sure you want to logout?"
+    )
 }
 
 @Composable
@@ -270,6 +314,50 @@ fun listItemView(spendModel : SpendModel){
         }
     }
 }
+
+@Composable
+fun openAlertDialog(
+    openAlertDialog : MutableState<Boolean>,
+    onDismissRequest: () -> Unit,
+    onConfirmation: () -> Unit,
+    dialogTitle: String,
+    dialogText: String,
+) {
+    when {
+        openAlertDialog.value -> {
+            AlertDialog(
+                title = {
+                    Text(text = dialogTitle)
+                },
+                text = {
+                    Text(text = dialogText)
+                },
+                onDismissRequest = {
+                    onDismissRequest()
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            onConfirmation()
+                        }
+                    ) {
+                        Text("Yes")
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = {
+                            onDismissRequest()
+                        }
+                    ) {
+                        Text("No")
+                    }
+                }
+            )
+        }
+    }
+}
+
 @Preview
 @Composable
 fun homePagePreview() {

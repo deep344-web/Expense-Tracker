@@ -6,5 +6,13 @@ data class MenuItemModel(
     val id : String,
     val label : String,
     val contentDesc : String,
-    val icon : ImageVector
+    val selectedIcon : ImageVector,
+    val unSelectedIcon : ImageVector
 )
+
+enum class MenuIds(val value : String){
+    HOME("home"),
+    ADD("add"),
+    SETTINGS("settings"),
+    SIGN_OUT("sign_out")
+}
